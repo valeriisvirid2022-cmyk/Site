@@ -118,37 +118,26 @@
   </footer>
   
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>  
+    emailjs.init('inbXz_dWR7MI0YfaKv8zE');
+        
+      const form = document.getElementById('contact-form');
 
-  <script type="text/javascript">
-    (function() {
-      emailjs.init({
-        publicKey: "inbXz_dWR7MI0YfaKv8zE",
+      form.addEventListener('submit', function(event) {
+          event.preventDefault();
+
+          emailjs.sendForm('service_c6s5cio', 'template_7jejrjr', this)
+              .then(function(response) {
+                  console.log('SUCCESS!', response.status, response.text);
+
+                  document.getElementById('success-modal').style.display = 'block';
+
+                  form.reset();
+              }, function(error) {
+                  console.log('FAILED...', error);
+                  alert('Ошибка отправки. Пожалуйста, попробуйте позже.');
+              });
       });
-    })();
-  
-    const form = document.getElementById('contact-form');
-    const submitBtn = document.getElementById('submit-btn');
-  
-    form.addEventListener('submit', function(event) {
-      event.preventDefault(); 
-  
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Отправка...';
-  
-      emailjs.sendForm('service_1nizkv7', 'template_nuu386c', this)
-        .then(function(response) {
-          console.log('SUCCESS!', response.status, response.text);
-          alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами.');
-          form.reset();
-        }, function(error) {
-          console.log('FAILED...', error);
-          alert('Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
-        })
-        .finally(function() {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = 'Отправить заявку <span>↗</span>';
-        });
-    });
   </script>
 </body>
 </html>
